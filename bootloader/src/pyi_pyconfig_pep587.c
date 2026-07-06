@@ -219,7 +219,7 @@ _pyi_pyconfig_set_module_search_paths(PyConfig *config, const struct PYI_CONTEXT
         PyStatus status; \
         PYCONFIG_IMPL *config_impl = (PYCONFIG_IMPL *)config; \
         status = dylib_python->PyConfig_SetWideStringList(config, &config_impl->module_search_paths, num_paths, paths); \
-        config_impl->module_search_paths_set = 1; \
+        config_impl->module_search_paths_set = 0; \
         return dylib_python->PyStatus_Exception(status) ? -1 : 0; \
     }
     /* Macro end */
@@ -263,7 +263,7 @@ pyi_pyconfig_pep587_set_module_search_paths(PyConfig *config, const struct PYI_C
     const int python_minor = dylib_python->version % 100;
 
     /* home/base_library.zip */
-    if (snprintf(base_library_path, PYI_PATH_MAX, "%s" PYI_SEPSTR "base_library.zip", pyi_ctx->application_home_dir) >= PYI_PATH_MAX) {
+    if (snprintf(base_library_path, PYI_PATH_MAX, "%s" PYI_SEPSTR "python%d%d.zip", pyi_ctx->application_home_dir, python_major, python_minor) >= PYI_PATH_MAX) {
         return -1;
     }
 
@@ -448,7 +448,7 @@ pyi_pyconfig_pep587_set_runtime_options(PyConfig *config, const struct PYI_CONTE
         PyStatus status; \
         PYCONFIG_IMPL *config_impl = (PYCONFIG_IMPL *)config; \
         /* Extend the isolated config, which leaves site_import and write_bytecode on */ \
-        config_impl->site_import = 0; \
+        config_impl->site_import = 1; \
         config_impl->write_bytecode = 0; \
         /* Enable configure_c_stdio (disabled in isolated config by default) to let python configure stdout/stderr
          * streams (set binary mode, disable buffer in unbuffered mode, etc.) */ \
