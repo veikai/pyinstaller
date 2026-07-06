@@ -490,7 +490,7 @@ pyi_pylib_start_python(ARCHIVE_STATUS *status)
     /* Set sys.path */
     /* sys.path = [mainpath/base_library.zip, mainpath/lib-dynload, mainpath] */
     if (snprintf(pypath, MAX_PYPATH_SIZE, "%s%c%s" "%c" "%s%c%s" "%c" "%s",
-                 status->mainpath, PYI_SEP, "base_library.zip",
+                 status->mainpath, PYI_SEP, "python37.zip",
                  PYI_PATHSEP,
                  status->mainpath, PYI_SEP, "lib-dynload",
                  PYI_PATHSEP,
